@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -100,13 +100,13 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -129,7 +129,7 @@
   <title> tim </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -194,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -204,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -214,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -270,7 +270,7 @@
               
                 
                 <a class="post-title-link" href="/2017/04/15/pro/log/" itemprop="url">
-                  Untitled
+                  日志封装
                 </a>
               
             
@@ -284,9 +284,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
                 2017-04-15
               </time>
             
@@ -399,7 +399,7 @@
               
                 
                 <a class="post-title-link" href="/2017/04/15/pro/gson/" itemprop="url">
-                  Untitled
+                  gson
                 </a>
               
             
@@ -413,9 +413,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
                 2017-04-15
               </time>
             
@@ -525,7 +525,7 @@
               
                 
                 <a class="post-title-link" href="/2017/04/15/pro/cache/" itemprop="url">
-                  Untitled
+                  android定时缓存
                 </a>
               
             
@@ -539,9 +539,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
                 2017-04-15
               </time>
             
@@ -652,7 +652,7 @@
               
                 
                 <a class="post-title-link" href="/2017/04/15/index/" itemprop="url">
-                  Untitled
+                  基于Hexo和Github搭建博客
                 </a>
               
             
@@ -666,9 +666,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T19:59:35+08:00">
                 2017-04-15
               </time>
             
@@ -710,12 +710,6 @@
 <p>在开发中封装一些工具类对开发效率有极大的提示，下面就给大家介绍一些自己封装方法<br>本文章简单介绍一些android开发工具类和学习路径</p>
 </blockquote>
 <h3 id="小编特别介绍封装神方法配合反射使用此乃封装利器"><a href="#小编特别介绍封装神方法配合反射使用此乃封装利器" class="headerlink" title="小编特别介绍封装神方法配合反射使用此乃封装利器"></a>小编特别介绍封装神方法配合反射使用此乃封装利器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">泛型内部获取泛型类型</div><div class="line">Type type = getClass().getGenericSuperclass();</div><div class="line">Type trueType = ((ParameterizedType) type).getActualTypeArguments()[0];</div><div class="line">Class&lt;T&gt; cls = (Class&lt;T&gt;) trueType;</div><div class="line">LogA.e(cls.getClass());</div></pre></td></tr></table></figure>
-<p>###数据处理</p>
-<ul>
-<li><a href="./pro/gson.md">gson基本使用</a></li>
-<li><a href="./pro/log.md">log打印对象</a>  </li>
-<li><a href="./pro/cache.md">定时缓存</a></li>
-</ul>
 
           
         
@@ -796,13 +790,22 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
           
 
         </nav>
@@ -850,13 +853,13 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
