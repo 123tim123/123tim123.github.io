@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
+<meta name="description" content="定时缓存 给大家介绍一个比好好用轻量级缓存工具Acache,它类似javaEE的ehcache使用非常方便，可以设置自动过期时间  1234ACache mCache = ACache.get(this);mCache.put(&amp;quot;test_key1&amp;quot;, &amp;quot;test value&amp;quot;);mCache.put(&amp;quot;test_key2&amp;quot;, &amp;quot">
 <meta name="keywords" content="android,数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="日志封装">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/pro/log/index.html">
-<meta property="og:site_name" content="tim">
-<meta property="og:description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
-<meta property="og:updated_time" content="2017-04-15T13:23:18.136Z">
+<meta property="og:title" content="android定时缓存">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/pro/android/cache/index.html">
+<meta property="og:site_name" content="tim程序员">
+<meta property="og:description" content="定时缓存 给大家介绍一个比好好用轻量级缓存工具Acache,它类似javaEE的ehcache使用非常方便，可以设置自动过期时间  1234ACache mCache = ACache.get(this);mCache.put(&amp;quot;test_key1&amp;quot;, &amp;quot;test value&amp;quot;);mCache.put(&amp;quot;test_key2&amp;quot;, &amp;quot">
+<meta property="og:updated_time" content="2017-04-15T13:22:07.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="日志封装">
-<meta name="twitter:description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
+<meta name="twitter:title" content="android定时缓存">
+<meta name="twitter:description" content="定时缓存 给大家介绍一个比好好用轻量级缓存工具Acache,它类似javaEE的ehcache使用非常方便，可以设置自动过期时间  1234ACache mCache = ACache.get(this);mCache.put(&amp;quot;test_key1&amp;quot;, &amp;quot;test value&amp;quot;);mCache.put(&amp;quot;test_key2&amp;quot;, &amp;quot">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/15/pro/log/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/pro/android/cache/"/>
 
 
 
 
 
-  <title> 日志封装 | tim </title>
+  <title> android定时缓存 | tim程序员 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -167,7 +167,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">tim</span>
+        <span class="site-title">tim程序员</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -250,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/pro/log/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/pro/android/cache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="tim">
@@ -259,7 +259,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tim">
+      <meta itemprop="name" content="tim程序员">
     </span>
 
     
@@ -271,7 +271,7 @@
             
             
               
-                日志封装
+                android定时缓存
               
             
           </h1>
@@ -322,16 +322,14 @@
       
 
       
-        <h1 id="log-打印封装"><a href="#log-打印封装" class="headerlink" title="log 打印封装"></a>log 打印封装</h1><blockquote>
-<p>log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象</p>
+        <h1 id="定时缓存"><a href="#定时缓存" class="headerlink" title="定时缓存"></a>定时缓存</h1><blockquote>
+<p>给大家介绍一个比好好用轻量级缓存工具Acache,它类似javaEE的ehcache使用非常方便，可以设置自动过期时间</p>
 </blockquote>
-<p>##使用gson配合打印</p>
-<ul>
-<li>gson 不管是对象数据还是集合类可以很直观的打印json对象</li>
-<li>长度换行，log打印有长度显示，如果超出长度则调用调用另一个打印</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public static void e(Object content) &#123;</div><div class="line">	show(&quot;ee&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void a(Object content) &#123;</div><div class="line">	show(&quot;aa&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void texta(String str)&#123;</div><div class="line">	if (str == null) &#123;</div><div class="line">		Log.i(&quot;aa&quot;, &quot;str==null&quot;);</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	Log.i(&quot;aa&quot;, str);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public static void i(Object content) &#123;</div><div class="line">	show(&quot;ii&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private static void show(String name, Object obj) &#123;</div><div class="line">	if (obj == null) &#123;</div><div class="line">		Log.i(name, &quot;str==null&quot;);</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	String str = new Gson().toJson(obj);</div><div class="line">	int index = 0;</div><div class="line">	int maxLength = 3000;</div><div class="line">	String sub;</div><div class="line">	if (str.length() &lt; maxLength) &#123;</div><div class="line">		Log.i(name, str);</div><div class="line">	&#125; else &#123;</div><div class="line">		int num = str.length() / maxLength + 1;</div><div class="line">		for (int i = 0; i &lt; num; i++) &#123;</div><div class="line">			if (num - 1 == i) &#123;</div><div class="line">				Log.i(name, str.substring(i * maxLength, str.length()));</div><div class="line">			&#125; else &#123;</div><div class="line">				Log.i(name,</div><div class="line">						str.substring(i * maxLength, (i + 1) * maxLength));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ACache mCache = ACache.get(this);</div><div class="line">mCache.put(&quot;test_key1&quot;, &quot;test value&quot;);</div><div class="line">mCache.put(&quot;test_key2&quot;, &quot;test value&quot;, 10);//保存10秒，如果超过10秒去获取这个key，将为null</div><div class="line">mCache.put(&quot;test_key3&quot;, &quot;test value&quot;, 2 * ACache.TIME_DAY);//保存两天，如果超过两天去获取这个key，将为nul</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用起来就和使用map累死，key-value，第三个参数为是时间参数。<br>如果设置了时间参数，则数据会将在超过该时间后自动清除<br>如果没有设置时间参数，则数据会永久保存<br>Acache可以完全代替sharedpreferences 使用，简介方便高效</p>
+</blockquote>
+<h3 id="Acache-下载文件"><a href="#Acache-下载文件" class="headerlink" title="Acache 下载文件"></a><a href="../utils/ACache.java">Acache 下载文件</a></h3>
       
     </div>
 
@@ -396,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/16/pro/idcard/" rel="next" title="身份证打开器连接html">
-                <i class="fa fa-chevron-left"></i> 身份证打开器连接html
+              <a href="/2017/04/15/pro/android/gson/" rel="next" title="gson">
+                <i class="fa fa-chevron-left"></i> gson
               </a>
             
           </div>
@@ -406,8 +404,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/15/pro/gson/" rel="prev" title="gson">
-                gson <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/15/index/" rel="prev" title="简单介绍封装技巧">
+                简单介绍封装技巧 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -480,7 +478,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -493,7 +491,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -528,7 +526,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#log-打印封装"><span class="nav-number">1.</span> <span class="nav-text">log 打印封装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定时缓存"><span class="nav-number">1.</span> <span class="nav-text">定时缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Acache-下载文件"><span class="nav-number">1.0.1.</span> <span class="nav-text">Acache 下载文件</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="gson基本使用 gson json使用最频繁的工具在这里就不做过多的介绍只介绍一下基本使用和几个注意点  tojson将java对象转换为json123Gson gson = new Gson(); List persons = new ArrayList(); String str = gson.toJson(persons); fromjson将json字符串转换为实体对象123Gson提供">
+<meta name="description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
 <meta name="keywords" content="android,数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gson">
-<meta property="og:url" content="http://yoursite.com/2017/04/15/pro/gson/index.html">
-<meta property="og:site_name" content="tim">
-<meta property="og:description" content="gson基本使用 gson json使用最频繁的工具在这里就不做过多的介绍只介绍一下基本使用和几个注意点  tojson将java对象转换为json123Gson gson = new Gson(); List persons = new ArrayList(); String str = gson.toJson(persons); fromjson将json字符串转换为实体对象123Gson提供">
-<meta property="og:updated_time" content="2017-04-15T13:22:56.031Z">
+<meta property="og:title" content="日志封装">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/pro/android/log/index.html">
+<meta property="og:site_name" content="tim程序员">
+<meta property="og:description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
+<meta property="og:updated_time" content="2017-04-15T13:23:18.136Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gson">
-<meta name="twitter:description" content="gson基本使用 gson json使用最频繁的工具在这里就不做过多的介绍只介绍一下基本使用和几个注意点  tojson将java对象转换为json123Gson gson = new Gson(); List persons = new ArrayList(); String str = gson.toJson(persons); fromjson将json字符串转换为实体对象123Gson提供">
+<meta name="twitter:title" content="日志封装">
+<meta name="twitter:description" content="log 打印封装 log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象  ##使用gson配合打印  gson 不管是对象数据还是集合类可以很直观的打印json对象 长度换行，log打印有长度显示，如果超出长度">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/15/pro/gson/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/pro/android/log/"/>
 
 
 
 
 
-  <title> gson | tim </title>
+  <title> 日志封装 | tim程序员 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -167,7 +167,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">tim</span>
+        <span class="site-title">tim程序员</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -250,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/pro/gson/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/pro/android/log/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="tim">
@@ -259,7 +259,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tim">
+      <meta itemprop="name" content="tim程序员">
     </span>
 
     
@@ -271,7 +271,7 @@
             
             
               
-                gson
+                日志封装
               
             
           </h1>
@@ -322,12 +322,15 @@
       
 
       
-        <h1 id="gson基本使用"><a href="#gson基本使用" class="headerlink" title="gson基本使用"></a>gson基本使用</h1><blockquote>
-<p>gson json使用最频繁的工具在这里就不做过多的介绍只介绍一下基本使用和几个注意点</p>
+        <h1 id="log-打印封装"><a href="#log-打印封装" class="headerlink" title="log 打印封装"></a>log 打印封装</h1><blockquote>
+<p>log 打印对调至关重要，而android log打印只能打印字符串，而我们在调试中大部分都是java 对象。许多人使用toString 方法来打印，虽然这个方法可行，但是对象里又二级对象就不适用而且比较麻烦。接下来就介绍我封装的logA对象</p>
 </blockquote>
-<h3 id="tojson将java对象转换为json"><a href="#tojson将java对象转换为json" class="headerlink" title="tojson将java对象转换为json"></a>tojson将java对象转换为json</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Gson gson = new Gson(); </div><div class="line">List persons = new ArrayList(); </div><div class="line">String str = gson.toJson(persons);</div></pre></td></tr></table></figure>
-<h3 id="fromjson将json字符串转换为实体对象"><a href="#fromjson将json字符串转换为实体对象" class="headerlink" title="fromjson将json字符串转换为实体对象"></a>fromjson将json字符串转换为实体对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Gson提供了fromJson()方法来实现从Json字符串转化为到java实体的方法。 </div><div class="line">比如json字符串为：[&#123;“name”:”name0”,”age”:0&#125;] </div><div class="line">Person person = gson.fromJson(str, Person.class);</div></pre></td></tr></table></figure>
-<h3 id="注意点在使用泛型转换时"><a href="#注意点在使用泛型转换时" class="headerlink" title="注意点在使用泛型转换时"></a>注意点在使用泛型转换时</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">class GsonResponsePasare&lt;T&gt; implements ParameterizedType &#123;</div><div class="line">        private final UtilsLog lg = UtilsLog.getLogger(GsonResponsePasare.class);</div><div class="line"></div><div class="line">        public T deal(String response) &#123;</div><div class="line">//            Type gsonType = new ParameterizedType() &#123;//...&#125;;//不建议该方式，推荐采用GsonResponsePasare实现ParameterizedType.因为getActualTypeArguments这里涉及获取GsonResponsePasare的泛型集合</div><div class="line">            Type gsonType = this;</div><div class="line"></div><div class="line">            CommonResponse&lt;T&gt; commonResponse = new Gson().fromJson(response, gsonType);</div><div class="line">            lg.e(&quot;Data is : &quot; + commonResponse.data, &quot;Class Type is : &quot; + commonResponse.data.getClass().toString());</div><div class="line">            return commonResponse.data;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public Type[] getActualTypeArguments() &#123;</div><div class="line">            Class clz = this.getClass();</div><div class="line">            //这里必须注意在外面使用new GsonResponsePasare&lt;GsonResponsePasare.DataInfo&gt;()&#123;&#125;;实例化时必须带上&#123;&#125;,否则获取到的superclass为Object</div><div class="line">            Type superclass = clz.getGenericSuperclass(); //getGenericSuperclass()获得带有泛型的父类</div><div class="line">            if (superclass instanceof Class) &#123;</div><div class="line">                throw new RuntimeException(&quot;Missing type parameter.&quot;);</div><div class="line">            &#125;</div><div class="line">            ParameterizedType parameterized = (ParameterizedType) superclass;</div><div class="line">            return parameterized.getActualTypeArguments();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public Type getOwnerType() &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public Type getRawType() &#123;</div><div class="line">            return CommonResponse.class;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>##使用gson配合打印</p>
+<ul>
+<li>gson 不管是对象数据还是集合类可以很直观的打印json对象</li>
+<li>长度换行，log打印有长度显示，如果超出长度则调用调用另一个打印</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public static void e(Object content) &#123;</div><div class="line">	show(&quot;ee&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void a(Object content) &#123;</div><div class="line">	show(&quot;aa&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public static void texta(String str)&#123;</div><div class="line">	if (str == null) &#123;</div><div class="line">		Log.i(&quot;aa&quot;, &quot;str==null&quot;);</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	Log.i(&quot;aa&quot;, str);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public static void i(Object content) &#123;</div><div class="line">	show(&quot;ii&quot;, content);</div><div class="line">&#125;</div><div class="line"></div><div class="line">private static void show(String name, Object obj) &#123;</div><div class="line">	if (obj == null) &#123;</div><div class="line">		Log.i(name, &quot;str==null&quot;);</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	String str = new Gson().toJson(obj);</div><div class="line">	int index = 0;</div><div class="line">	int maxLength = 3000;</div><div class="line">	String sub;</div><div class="line">	if (str.length() &lt; maxLength) &#123;</div><div class="line">		Log.i(name, str);</div><div class="line">	&#125; else &#123;</div><div class="line">		int num = str.length() / maxLength + 1;</div><div class="line">		for (int i = 0; i &lt; num; i++) &#123;</div><div class="line">			if (num - 1 == i) &#123;</div><div class="line">				Log.i(name, str.substring(i * maxLength, str.length()));</div><div class="line">			&#125; else &#123;</div><div class="line">				Log.i(name,</div><div class="line">						str.substring(i * maxLength, (i + 1) * maxLength));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -393,8 +396,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/15/pro/log/" rel="next" title="日志封装">
-                <i class="fa fa-chevron-left"></i> 日志封装
+              <a href="/2017/04/16/pro/idcard/" rel="next" title="身份证打开器连接html">
+                <i class="fa fa-chevron-left"></i> 身份证打开器连接html
               </a>
             
           </div>
@@ -403,8 +406,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/15/pro/cache/" rel="prev" title="android定时缓存">
-                android定时缓存 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/15/pro/android/gson/" rel="prev" title="gson">
+                gson <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -477,7 +480,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -490,7 +493,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -525,7 +528,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gson基本使用"><span class="nav-number">1.</span> <span class="nav-text">gson基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tojson将java对象转换为json"><span class="nav-number">1.0.1.</span> <span class="nav-text">tojson将java对象转换为json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fromjson将json字符串转换为实体对象"><span class="nav-number">1.0.2.</span> <span class="nav-text">fromjson将json字符串转换为实体对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点在使用泛型转换时"><span class="nav-number">1.0.3.</span> <span class="nav-text">注意点在使用泛型转换时</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#log-打印封装"><span class="nav-number">1.</span> <span class="nav-text">log 打印封装</span></a></li></ol></div>
             
 
           </div>
