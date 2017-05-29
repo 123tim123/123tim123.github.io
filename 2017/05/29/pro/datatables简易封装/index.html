@@ -1,0 +1,941 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,html," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是datatables？ Datatables是一款jquery表格插件。它是一个高度灵活的工具，可以将任何HTML表格添加高级的交互功能。    详细介绍请进入官方网站查询 datatables中文官网     此篇文章主要介绍的是后台的用法已经简易的封装方法 让我们先看一下前端js是怎么实现的，下面是一个真实使用接口    后台框架则使用的是struts+spring+jdbc 的企微dq">
+<meta name="keywords" content="java,html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="datatables 简易封装">
+<meta property="og:url" content="http://yoursite.com/2017/05/29/pro/datatables简易封装/index.html">
+<meta property="og:site_name" content="tim程序员">
+<meta property="og:description" content="什么是datatables？ Datatables是一款jquery表格插件。它是一个高度灵活的工具，可以将任何HTML表格添加高级的交互功能。    详细介绍请进入官方网站查询 datatables中文官网     此篇文章主要介绍的是后台的用法已经简易的封装方法 让我们先看一下前端js是怎么实现的，下面是一个真实使用接口    后台框架则使用的是struts+spring+jdbc 的企微dq">
+<meta property="og:updated_time" content="2017-05-29T13:39:47.281Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="datatables 简易封装">
+<meta name="twitter:description" content="什么是datatables？ Datatables是一款jquery表格插件。它是一个高度灵活的工具，可以将任何HTML表格添加高级的交互功能。    详细介绍请进入官方网站查询 datatables中文官网     此篇文章主要介绍的是后台的用法已经简易的封装方法 让我们先看一下前端js是怎么实现的，下面是一个真实使用接口    后台框架则使用的是struts+spring+jdbc 的企微dq">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/29/pro/datatables简易封装/"/>
+
+
+
+
+
+  <title> datatables 简易封装 | tim程序员 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tim程序员</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/29/pro/datatables简易封装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="tim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/p-head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tim程序员">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                datatables 简易封装
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-29T19:37:38+08:00">
+                2017-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/29/pro/datatables简易封装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/29/pro/datatables简易封装/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是datatables？"><a href="#什么是datatables？" class="headerlink" title="什么是datatables？"></a>什么是datatables？</h3><blockquote>
+<p>Datatables是一款jquery表格插件。它是一个高度灵活的工具，可以将任何HTML表格添加高级的交互功能。   </p>
+<p>详细介绍请进入官方网站查询 <a href="http://www.datatables.club/" target="_blank" rel="external">datatables中文官网</a>  </p>
+</blockquote>
+<ul>
+<li>此篇文章主要介绍的是后台的用法已经简易的封装方法</li>
+<li>让我们先看一下前端js是怎么实现的，下面是一个真实使用接口   </li>
+<li>后台框架则使用的是struts+spring+jdbc 的企微dqdp框架</li>
+</ul>
+<h3 id="网络请求实例用法"><a href="#网络请求实例用法" class="headerlink" title="网络请求实例用法"></a>网络请求实例用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">var table;</div><div class="line">		function upSerach() &#123;</div><div class="line">		if (table == null) &#123;</div><div class="line">			initTab(); //初始化方法</div><div class="line">		&#125; else &#123;</div><div class="line">			table.ajax.reload();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	function initTab() &#123;</div><div class="line">	table = $(&apos;#example&apos;)</div><div class="line">			.DataTable(</div><div class="line">					&#123;</div><div class="line">						language : &#123;</div><div class="line">							&quot;sProcessing&quot; : &quot;处理中...&quot;,</div><div class="line">							&quot;sLengthMenu&quot; : &quot;显示 _MENU_ 项结果&quot;,</div><div class="line">							&quot;sZeroRecords&quot; : &quot;没有匹配结果&quot;,</div><div class="line">							&quot;sInfo&quot; : &quot;显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项&quot;,</div><div class="line">							&quot;sInfoEmpty&quot; : &quot;显示第 0 至 0 项结果，共 0 项&quot;,</div><div class="line">							&quot;sInfoFiltered&quot; : &quot;(由 _MAX_ 项结果过滤)&quot;,</div><div class="line">							&quot;sInfoPostFix&quot; : &quot;&quot;,</div><div class="line">							&quot;sSearch&quot; : &quot;搜索:&quot;,</div><div class="line">							&quot;sUrl&quot; : &quot;&quot;,</div><div class="line">							&quot;sEmptyTable&quot; : &quot;表中数据为空&quot;,</div><div class="line">							&quot;sLoadingRecords&quot; : &quot;载入中...&quot;,</div><div class="line">							&quot;sInfoThousands&quot; : &quot;,&quot;,</div><div class="line">							&quot;oPaginate&quot; : &#123;</div><div class="line">								&quot;sFirst&quot; : &quot;首页&quot;,</div><div class="line">								&quot;sPrevious&quot; : &quot;上页&quot;,</div><div class="line">								&quot;sNext&quot; : &quot;下页&quot;,</div><div class="line">								&quot;sLast&quot; : &quot;末页&quot;</div><div class="line">							&#125;,</div><div class="line">							&quot;oAria&quot; : &#123;</div><div class="line">								&quot;sSortAscending&quot; : &quot;: 以升序排列此列&quot;,</div><div class="line">								&quot;sSortDescending&quot; : &quot;: 以降序排列此列&quot;</div><div class="line">							&#125;</div><div class="line">						&#125;,</div><div class="line">						&quot;paging&quot; : true,</div><div class="line">						&quot;lengthChange&quot; : false,</div><div class="line">						&quot;searching&quot; : false,</div><div class="line">						&quot;ordering&quot; : false,</div><div class="line">						&quot;processing&quot; : true,</div><div class="line">						&quot;serverSide&quot; : true,</div><div class="line">						&quot;ajax&quot; : &#123;</div><div class="line">							&quot;url&quot; : &quot;$&#123;basePath&#125;databank/databankAction!findParamList.action&quot;,</div><div class="line">							&quot;type&quot; : &quot;post&quot;,</div><div class="line">							&quot;dataSrc&quot; : function(json) &#123;</div><div class="line">								return json.data;</div><div class="line">							&#125;,</div><div class="line">							&quot;data&quot; : function(d) &#123;</div><div class="line">								d.type=&apos;7&apos;;</div><div class="line">							&#125;</div><div class="line">						&#125;,</div><div class="line">						&quot;columns&quot; : [&#123;</div><div class="line">							&quot;data&quot; : &quot;paramName&quot;</div><div class="line">						&#125;, &#123;</div><div class="line">							&quot;data&quot; : &quot;updateTime&quot;</div><div class="line">						&#125;, &#123;</div><div class="line">							&quot;data&quot; : &quot;paramId&quot;</div><div class="line">						&#125;],</div><div class="line">						&quot;columnDefs&quot; : [&#123;</div><div class="line">							// 定义操作列,######以下是重点########</div><div class="line">							&quot;targets&quot; : 2,//操作按钮目标列</div><div class="line">							&quot;data&quot; : null,</div><div class="line">							&quot;render&quot; : function(data, type, row) &#123;</div><div class="line">								var id = row.paramId;</div><div class="line">								var name = row.paramName;</div><div class="line">								var status = &apos;&apos;;</div><div class="line">								return &quot;&lt;div id=\&quot;&quot;+id+&quot;\&quot; status=\&quot;&quot;+status+&quot;\&quot; name=\&quot;&quot;+name+&quot;\&quot; class=\&quot;ctol_list\&quot;&gt;&lt;/div&gt;&quot;;</div><div class="line">							&#125;</div><div class="line">						&#125;]</div><div class="line">					&#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="使用本地数据方法"><a href="#使用本地数据方法" class="headerlink" title="使用本地数据方法"></a>使用本地数据方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">//shuxin liebiao </div><div class="line">		function upSerach() &#123;</div><div class="line">			if (table == null) &#123;</div><div class="line">				initTab();</div><div class="line">			&#125; else &#123;</div><div class="line">              table.clear();</div><div class="line">              table.rows.add(datawe).draw();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line"></div><div class="line"> var datawe = [</div><div class="line">			    ];</div><div class="line">			</div><div class="line">		var table;</div><div class="line">		function initTab() &#123;</div><div class="line">		table = $(&apos;#example&apos;)</div><div class="line">				.DataTable(</div><div class="line">						&#123;</div><div class="line">							language : &#123;</div><div class="line">								&quot;sProcessing&quot; : &quot;处理中...&quot;,</div><div class="line">								&quot;sLengthMenu&quot; : &quot;显示 _MENU_ 项结果&quot;,</div><div class="line">								&quot;sZeroRecords&quot; : &quot;没有匹配结果&quot;,</div><div class="line">								&quot;sInfo&quot; : &quot;显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项&quot;,</div><div class="line">								&quot;sInfoEmpty&quot; : &quot;显示第 0 至 0 项结果，共 0 项&quot;,</div><div class="line">								&quot;sInfoFiltered&quot; : &quot;(由 _MAX_ 项结果过滤)&quot;,</div><div class="line">								&quot;sInfoPostFix&quot; : &quot;&quot;,</div><div class="line">								&quot;sSearch&quot; : &quot;搜索:&quot;,</div><div class="line">								&quot;sUrl&quot; : &quot;&quot;,</div><div class="line">								&quot;sEmptyTable&quot; : &quot;表中数据为空&quot;,</div><div class="line">								&quot;sLoadingRecords&quot; : &quot;载入中...&quot;,</div><div class="line">								&quot;sInfoThousands&quot; : &quot;,&quot;,</div><div class="line">								&quot;oPaginate&quot; : &#123;</div><div class="line">									&quot;sFirst&quot; : &quot;首页&quot;,</div><div class="line">									&quot;sPrevious&quot; : &quot;上页&quot;,</div><div class="line">									&quot;sNext&quot; : &quot;下页&quot;,</div><div class="line">									&quot;sLast&quot; : &quot;末页&quot;</div><div class="line">								&#125;,</div><div class="line">								&quot;oAria&quot; : &#123;</div><div class="line">									&quot;sSortAscending&quot; : &quot;: 以升序排列此列&quot;,</div><div class="line">									&quot;sSortDescending&quot; : &quot;: 以降序排列此列&quot;</div><div class="line">								&#125;</div><div class="line">							&#125;,</div><div class="line">							&quot;paging&quot; : true,</div><div class="line">							&quot;lengthChange&quot; : false,</div><div class="line">							&quot;searching&quot; : false,</div><div class="line">							&quot;ordering&quot; : false,</div><div class="line">							&quot;processing&quot; : true,</div><div class="line">							&quot;data&quot; :datawe,</div><div class="line">							&quot;columns&quot; : [&#123;</div><div class="line">								&quot;data&quot; : &quot;id&quot;</div><div class="line">							&#125;, &#123;</div><div class="line">								&quot;data&quot; : &quot;name&quot;</div><div class="line">							&#125;, &#123;</div><div class="line">								&quot;data&quot; : &quot;shelvsStatus&quot;</div><div class="line">							&#125;],</div><div class="line">							&quot;columnDefs&quot; : [&#123;</div><div class="line">								// 定义操作列,######以下是重点########</div><div class="line">								&quot;targets&quot; : 2,//操作按钮目标列</div><div class="line">								&quot;data&quot; : null,</div><div class="line">								&quot;render&quot; : function(data, type, row,meta) &#123;</div><div class="line">									var shelvsStatus = row.shelvsStatus;</div><div class="line">									return (shelvsStatus==&apos;1&apos;)?&quot;待上架&quot;:(shelvsStatus==&apos;2&apos;)?&quot;已上架&quot;:(shelvsStatus==&apos;3&apos;)?&quot;下架&quot;:&quot;&quot;;</div><div class="line">								&#125;</div><div class="line">							&#125;]</div><div class="line">						&#125;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="后台实现源码"><a href="#后台实现源码" class="headerlink" title="后台实现源码"></a>后台实现源码</h2><ul>
+<li>首先看一下action 实现   </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/** 获取参数列表</div><div class="line"> * </div><div class="line"> * @throws Exception</div><div class="line"> */</div><div class="line">@JSONOut(catchException = @CatchException(errCode = &quot;1005&quot;, successMsg = &quot;操作成功&quot;, faileMsg = &quot;操作失败&quot;))</div><div class="line">public void findParamList() throws Exception &#123;</div><div class="line">	JqDataTable jqd = new JqDataTable();</div><div class="line">	try &#123;</div><div class="line">		Map&lt;String, Object&gt; map = jqd.getSearch(&quot;type&quot;,&quot;is_photoType&quot;);</div><div class="line">		jqd = iParamDataService.findParamList(jqd, map);</div><div class="line">	&#125; catch (Exception e) &#123;</div><div class="line">		e.printStackTrace();</div><div class="line">	&#125;</div><div class="line">	JqDataTable.doOutList(jqd);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>主要的功能封装在JqDataTable 这个对象类，接下来我们来看看这个对象内的方法  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div></pre></td><td class="code"><pre><div class="line">package aizhuwu.common.bean;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.io.PrintWriter;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line"></div><div class="line">import org.apache.struts2.ServletActionContext;</div><div class="line"></div><div class="line">import com.google.gson.Gson;</div><div class="line">import com.google.gson.GsonBuilder;</div><div class="line"></div><div class="line">import aizhuwu.common.utils.VerifyUtil;</div><div class="line"></div><div class="line">public class JqDataTable &#123;</div><div class="line"></div><div class="line">	private int draw;</div><div class="line">	private int start;</div><div class="line">	private int length;</div><div class="line">	private int end;</div><div class="line">	private int recordsTotal;</div><div class="line"></div><div class="line">	private int recordsFiltered;</div><div class="line"></div><div class="line">	private List&lt;?&gt; data;</div><div class="line"></div><div class="line">	public JqDataTable() &#123;</div><div class="line">		HttpServletRequest request = ServletActionContext.getRequest();</div><div class="line">		try &#123;</div><div class="line">			draw = Integer.parseInt(request.getParameter(&quot;draw&quot;));</div><div class="line">			start = Integer.parseInt(request.getParameter(&quot;start&quot;));</div><div class="line">			length = Integer.parseInt(request.getParameter(&quot;length&quot;));</div><div class="line">			end = start + length;</div><div class="line">		&#125; catch (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public HashMap&lt;String, Object&gt; getSearch(String... strings) &#123;</div><div class="line">		HttpServletRequest request = ServletActionContext.getRequest();</div><div class="line">		HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();</div><div class="line">		for (String key : strings) &#123;</div><div class="line">			String param = request.getParameter(key);</div><div class="line">			if (!VerifyUtil.isEmpty(param)) &#123;</div><div class="line">				map.put(key, param);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		return map;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public JqDataTable(int draw, int recordsTotal, int recordsFiltered, List&lt;?&gt; data) &#123;</div><div class="line">		this.draw = draw;</div><div class="line">		this.recordsTotal = recordsTotal;</div><div class="line">		this.recordsFiltered = recordsFiltered;</div><div class="line">		this.data = data;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void set(int recordsTotal, int recordsFiltered, List&lt;?&gt; data) &#123;</div><div class="line">		this.recordsTotal = recordsTotal;</div><div class="line">		this.recordsFiltered = recordsFiltered;</div><div class="line">		this.data = data;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getDraw() &#123;</div><div class="line">		return draw;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setDraw(int draw) &#123;</div><div class="line">		this.draw = draw;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getRecordsTotal() &#123;</div><div class="line">		return recordsTotal;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRecordsTotal(int recordsTotal) &#123;</div><div class="line">		this.recordsTotal = recordsTotal;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getRecordsFiltered() &#123;</div><div class="line">		return recordsFiltered;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRecordsFiltered(int recordsFiltered) &#123;</div><div class="line">		this.recordsFiltered = recordsFiltered;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public List&lt;?&gt; getData() &#123;</div><div class="line">		return data;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setData(List&lt;?&gt; data) &#123;</div><div class="line">		this.data = data;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getStart() &#123;</div><div class="line">		return start + 1;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getLength() &#123;</div><div class="line">		return length;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setStart(int start) &#123;</div><div class="line">		this.start = start;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setLength(int length) &#123;</div><div class="line">		this.length = length;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getEnd() &#123;</div><div class="line">		return end;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setEnd(int end) &#123;</div><div class="line">		this.end = end;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void doOutList(String json) throws IOException &#123;</div><div class="line">		HttpServletResponse response = ServletActionContext.getResponse();</div><div class="line">		/*</div><div class="line">		 * HttpServletResponse则会返回一个用默认的编码(既ISO-8859-1)编码的PrintWriter实例。这样就会</div><div class="line">		 * 造成中文乱码。而且设置编码时必须在调用getWriter之前设置,不然是无效的。</div><div class="line">		 */</div><div class="line">		response.setContentType(&quot;text/html;charset=utf-8&quot;);</div><div class="line">		PrintWriter out = response.getWriter();</div><div class="line">		out.println(json);</div><div class="line">		out.flush();</div><div class="line">		out.close();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void doOutList(Object obj) throws IOException &#123;</div><div class="line">		Gson g = new GsonBuilder().serializeNulls().setDateFormat(&quot;yyyy-MM-dd HH:mm&quot;).create();</div><div class="line">		doOutList(g.toJson(obj));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void doOutObject(Object obj) throws IOException &#123;</div><div class="line">		HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();</div><div class="line">		map.put(&quot;code&quot;, &quot;0&quot;);</div><div class="line">		map.put(&quot;desc&quot;, &quot;操作成功&quot;);</div><div class="line">		map.put(&quot;data&quot;, obj);</div><div class="line">		Gson g = new GsonBuilder().serializeNulls().setDateFormat(&quot;yyyy-MM-dd HH:mm&quot;).create();</div><div class="line">		doOutList(g.toJson(map));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static void doOutObject(Object obj, String format) throws IOException &#123;</div><div class="line">		HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();</div><div class="line">		map.put(&quot;code&quot;, &quot;0&quot;);</div><div class="line">		map.put(&quot;desc&quot;, &quot;操作成功&quot;);</div><div class="line">		map.put(&quot;data&quot;, obj);</div><div class="line">		Gson g = new GsonBuilder().serializeNulls().setDateFormat(format).create();</div><div class="line">		doOutList(g.toJson(map));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * </div><div class="line">	 * @param obj</div><div class="line">	 * @param str</div><div class="line">	 * @throws IOException</div><div class="line">	 */</div><div class="line">	public static void doOutObjectTime(Object obj, String str) throws IOException &#123;</div><div class="line">		HashMap&lt;String, Object&gt; map = new HashMap&lt;&gt;();</div><div class="line">		map.put(&quot;code&quot;, &quot;0&quot;);</div><div class="line">		map.put(&quot;desc&quot;, &quot;操作成功&quot;);</div><div class="line">		map.put(&quot;data&quot;, obj);</div><div class="line">		Gson g = new GsonBuilder().serializeNulls().setDateFormat(str).create();</div><div class="line">		doOutList(g.toJson(map));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>1.draw 2.start 3.length 这三个参数则是datatables控件封装传输上来的字段，所以在前端是看不大这些字段的传输，可以通过谷歌浏览器开发模式查看有哪些字段上传，我们这套封装主要是试用这三个字段</li>
+</ul>
+<ul>
+<li>service 实现则没有做特殊逻辑处理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">	public JqDataTable findParamList(JqDataTable jqd, Map&lt;String, Object&gt; map) throws Exception &#123;</div><div class="line">		// TODO Auto-generated method stub</div><div class="line">		return iParamDataDAO.findParamList(jqd, map);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>犹豫框架是jdbc所有都是拼接sql来实现查询</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@Override</div><div class="line">public JqDataTable findParamList(JqDataTable jqd, Map&lt;String, Object&gt; map) throws SQLException &#123;</div><div class="line">	String type=(String) map.get(&quot;type&quot;);</div><div class="line">	String is_photoType = (String) map.get(&quot;is_photoType&quot;);</div><div class="line">	String sqlCity =VerifyUtil.isEmpty(type)?&quot;&quot;:&quot; and a.TYPE = &apos;&quot;+type+&quot;&apos;&quot;;</div><div class="line">	String sqlIsPhotoType =VerifyUtil.isEmpty(is_photoType)?&quot;&quot;:&quot; and a.IS_PHOTO_TYPE = &apos;&quot;+is_photoType+&quot;&apos;&quot;;</div><div class="line">	String sql =&quot;select * FROM TB_PARAM_PARAM_DATA a where 1=1 &quot;+sqlCity+sqlIsPhotoType+&quot; ORDER BY a.UPDATE_TIME DESC&quot;;</div><div class="line">	jqd = AISQLUtils.queryJqData(this, sql, jqd, ParamDataBean.class);</div><div class="line">	return jqd;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>最重要的是jqd = AISQLUtils.queryJqData(this, sql, jqd, ParamDataBean.class);<br>this则为查询方法父类 sql为条件语句 jqd 为翻页对象 ParamDataBean po 对象<br>查询语句FROM 必须大写，封装AISQLUtils 根据FROM第一字段来做分页语句拼接处理</p>
+</blockquote>
+<h2 id="AISQLUtils对应封装Oracle-分页查询"><a href="#AISQLUtils对应封装Oracle-分页查询" class="headerlink" title="AISQLUtils对应封装Oracle 分页查询"></a>AISQLUtils对应封装Oracle 分页查询</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">package aizhuwu.webservicesys.utils;</div><div class="line"></div><div class="line">import java.sql.SQLException;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">import org.apache.poi.ss.formula.functions.T;</div><div class="line"></div><div class="line">import aizhuwu.common.bean.JqDataTable;</div><div class="line">import cn.com.do1.common.framebase.dqdp.BaseDAOImpl;</div><div class="line">import cn.com.do1.component.backmanager.orgmgr.model.TbDqdpOrganizationPO;</div><div class="line"></div><div class="line">public class AISQLUtils &#123;</div><div class="line"></div><div class="line">	public static List&lt;?&gt; getListPage(BaseDAOImpl base, String sql, JqDataTable jq, Class&lt;?&gt; cls) throws SQLException &#123;</div><div class="line">		String baseSql = &quot;SELECT * FROM  (  SELECT A.*,rownum RN   FROM &quot; + &quot;(&quot; + sql + &quot;) A   ) &quot;</div><div class="line">				+ &quot; WHERE RN BETWEEN &apos;&quot; + jq.getStart() + &quot;&apos; AND &apos;&quot; + jq.getEnd() + &quot;&apos;  &quot;;</div><div class="line">		base.preparedSql(baseSql);</div><div class="line">		return base.getList(cls);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static int querySize(BaseDAOImpl base, String sql, JqDataTable jq) throws SQLException &#123;</div><div class="line">		String f = &quot;FROM&quot;;</div><div class="line">		String basesql = &quot;SELECT count(*) FROM &quot;;</div><div class="line">		int index =sql.indexOf(f);</div><div class="line">		String akk = basesql + sql.substring(index+f.length(), sql.length());</div><div class="line">		return base.executeCount(akk);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 查询分页</div><div class="line">	 * </div><div class="line">	 * @param base</div><div class="line">	 * @param sql</div><div class="line">	 * @param jq</div><div class="line">	 * @param cls</div><div class="line">	 * @return</div><div class="line">	 * @throws SQLException</div><div class="line">	 */</div><div class="line">	public static JqDataTable queryJqData(BaseDAOImpl base, String sql, JqDataTable jq, Class&lt;?&gt; cls)</div><div class="line">			throws SQLException &#123;</div><div class="line">		List&lt;?&gt; list = getListPage(base, sql, jq, cls);</div><div class="line">		int size = querySize(base, sql, jq);</div><div class="line">		jq.set(size, size, list);</div><div class="line">		return jq;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结：框架方法很多种思想是精髓-好的封装方法可大大提高开发效率。"><a href="#总结：框架方法很多种思想是精髓-好的封装方法可大大提高开发效率。" class="headerlink" title="总结：框架方法很多种思想是精髓 好的封装方法可大大提高开发效率。"></a>总结：框架方法很多种思想是精髓 好的封装方法可大大提高开发效率。</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/p-wechatpay.jpg" alt="tim WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/p-alipay.jpg" alt="tim Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/html/" rel="tag"># html</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/24/pro/java文件上传/" rel="prev" title="ajaxFileUpload文件上传">
+                ajaxFileUpload文件上传 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/p-head.jpg"
+               alt="tim" />
+          <p class="site-author-name" itemprop="name">tim</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是datatables？"><span class="nav-number">1.</span> <span class="nav-text">什么是datatables？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络请求实例用法"><span class="nav-number">2.</span> <span class="nav-text">网络请求实例用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用本地数据方法"><span class="nav-number">3.</span> <span class="nav-text">使用本地数据方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台实现源码"><span class="nav-number"></span> <span class="nav-text">后台实现源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AISQLUtils对应封装Oracle-分页查询"><span class="nav-number"></span> <span class="nav-text">AISQLUtils对应封装Oracle 分页查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结：框架方法很多种思想是精髓-好的封装方法可大大提高开发效率。"><span class="nav-number">1.</span> <span class="nav-text">总结：框架方法很多种思想是精髓 好的封装方法可大大提高开发效率。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tim</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://tim.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/05/29/pro/datatables简易封装/';
+          this.page.identifier = '2017/05/29/pro/datatables简易封装/';
+          this.page.title = 'datatables 简易封装';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tim.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
