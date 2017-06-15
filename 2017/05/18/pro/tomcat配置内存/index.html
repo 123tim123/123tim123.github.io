@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/05/18/pro/tomcat配置内存/a1.png">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/pro/tomcat配置内存/a2.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/05/18/pro/tomcat配置内存/a3.jpg">
-<meta property="og:updated_time" content="2017-05-18T11:11:35.116Z">
+<meta property="og:updated_time" content="2017-06-07T05:16:46.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tomcat配置之内存配置">
 <meta name="twitter:description" content="tomcat 配置内存 进入tomcat bin目录windows下找到     配置如下  找到cd ..set “CATALINA_HOME=%cd%”在后面添加上 set JAVA_OPTS=-Xms256m -Xmx512m -XX:PermSize=128M -XX:MaxNewSize=256m -XX:MaxPermSize=256m -Djava.awt.headless=true">
@@ -400,6 +400,8 @@
 <p>在catalina.bat 中添加 set title=8081[%DATE%] 即可<br>效果如下</p>
 </blockquote>
 <p><img src="/2017/05/18/pro/tomcat配置内存/a2.jpg"><br><img src="/2017/05/18/pro/tomcat配置内存/a3.jpg"> </p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Linux下修改JVM内存大小:<br>要添加在tomcat 的bin 下catalina.sh 里，位置cygwin=false前 。注意引号要带上,红色的为新添加的.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># OS specific support. $var _must_ be set to either true or false.</div><div class="line">JAVA_OPTS=&quot;-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m&quot;</div><div class="line">cygwin=false</div></pre></td></tr></table></figure></p>
+<p>windows下修改JVM内存大小:<br>情况一:解压版本的Tomcat, 要通过startup.bat启动tomcat才能加载配置<br>要添加在tomcat 的bin 下catalina.bat 里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rem Guess CATALINA_HOME if not defined</div><div class="line">set CURRENT_DIR=%cd%后面添加,红色的为新添加的.</div><div class="line">set JAVA_OPTS=-Xms256m -Xmx512m -XX:PermSize=128M -XX:MaxNewSize=256m -XX:MaxPermSize=256m -Djava.awt.headless=true</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -558,7 +560,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -571,7 +573,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -606,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat-配置内存"><span class="nav-number">1.</span> <span class="nav-text">tomcat 配置内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置如下"><span class="nav-number">2.</span> <span class="nav-text">配置如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改tomcat-title"><span class="nav-number">3.</span> <span class="nav-text">修改tomcat title</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#tomcat-配置内存"><span class="nav-number">1.</span> <span class="nav-text">tomcat 配置内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置如下"><span class="nav-number">2.</span> <span class="nav-text">配置如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改tomcat-title"><span class="nav-number">3.</span> <span class="nav-text">修改tomcat title</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
