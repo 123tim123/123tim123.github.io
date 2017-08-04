@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="poi的简单封装与封装思维分享  文章的目的是分享怎样提高使用poi的效率，已经提高代码的可读性、编程性、维护性    通常看到许多程序员使用poi导出execle的时候都是一个方法写下来，几乎没有使用面向对象编程这个优势，这可以能是j2e程序员长期以来开发的思维固定有关，没有使用更多设计模式与面向对象编程。   让我们先看一段传统j2e程序员同事使用poi导出部分代码12345678910111">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java poi封装设计思维">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/pro/poi设计模式/index.html">
+<meta property="og:site_name" content="tim程序员">
+<meta property="og:description" content="poi的简单封装与封装思维分享  文章的目的是分享怎样提高使用poi的效率，已经提高代码的可读性、编程性、维护性    通常看到许多程序员使用poi导出execle的时候都是一个方法写下来，几乎没有使用面向对象编程这个优势，这可以能是j2e程序员长期以来开发的思维固定有关，没有使用更多设计模式与面向对象编程。   让我们先看一段传统j2e程序员同事使用poi导出部分代码12345678910111">
+<meta property="og:image" content="http://yoursite.com/2017/08/04/pro/poi设计模式/a1.png">
+<meta property="og:image" content="http://yoursite.com/2017/08/04/pro/poi设计模式/a2.png">
+<meta property="og:updated_time" content="2017-08-04T06:50:08.705Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java poi封装设计思维">
+<meta name="twitter:description" content="poi的简单封装与封装思维分享  文章的目的是分享怎样提高使用poi的效率，已经提高代码的可读性、编程性、维护性    通常看到许多程序员使用poi导出execle的时候都是一个方法写下来，几乎没有使用面向对象编程这个优势，这可以能是j2e程序员长期以来开发的思维固定有关，没有使用更多设计模式与面向对象编程。   让我们先看一段传统j2e程序员同事使用poi导出部分代码12345678910111">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/04/pro/poi设计模式/a1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/04/pro/poi设计模式/"/>
+
+
+
+
+
+  <title> java poi封装设计思维 | tim程序员 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_Hans/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tim程序员</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/pro/poi设计模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="tim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/p-head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tim程序员">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                java poi封装设计思维
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-04T11:50:04+08:00">
+                2017-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/04/pro/poi设计模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/04/pro/poi设计模式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="poi的简单封装与封装思维分享"><a href="#poi的简单封装与封装思维分享" class="headerlink" title="poi的简单封装与封装思维分享"></a>poi的简单封装与封装思维分享</h1><blockquote>
+<ul>
+<li>文章的目的是分享怎样提高使用poi的效率，已经提高代码的可读性、编程性、维护性   </li>
+<li>通常看到许多程序员使用poi导出execle的时候都是一个方法写下来，几乎没有使用面向对象编程这个优势，这可以能是j2e程序员长期以来开发的思维固定有关，没有使用更多设计模式与面向对象编程。</li>
+</ul>
+</blockquote>
+<h3 id="让我们先看一段传统j2e程序员同事使用poi导出部分代码"><a href="#让我们先看一段传统j2e程序员同事使用poi导出部分代码" class="headerlink" title="让我们先看一段传统j2e程序员同事使用poi导出部分代码"></a>让我们先看一段传统j2e程序员同事使用poi导出部分代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div></pre></td><td class="code"><pre><div class="line">public static HSSFWorkbook createWB(String fileName,String titleName,List list, String wbName)</div><div class="line">		    throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ParseException</div><div class="line">	&#123;</div><div class="line">	  	HSSFWorkbook wb = new HSSFWorkbook();</div><div class="line">	    HSSFSheet sheet = wb.createSheet(wbName);</div><div class="line">        // 设置表格默认列宽度为1个字节  </div><div class="line">        sheet.setDefaultColumnWidth((short) 1);   </div><div class="line">        // 生成一个样式  </div><div class="line">        HSSFCellStyle style = wb.createCellStyle();  </div><div class="line">        // 设置这些样式  </div><div class="line">        style.setFillForegroundColor(HSSFColor.SKY_BLUE.index);  </div><div class="line">        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);  </div><div class="line">        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);  </div><div class="line">        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);  </div><div class="line">        style.setBorderRight(HSSFCellStyle.BORDER_THIN);  </div><div class="line">        style.setBorderTop(HSSFCellStyle.BORDER_THIN);  </div><div class="line">        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  </div><div class="line">        // 生成一个字体  </div><div class="line">        HSSFFont font = wb.createFont();  </div><div class="line">        font.setColor(HSSFColor.VIOLET.index);  </div><div class="line">        font.setFontHeightInPoints((short) 12);  </div><div class="line">        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);  </div><div class="line">        // 把字体应用到当前的样式  </div><div class="line">        style.setFont(font); </div><div class="line">	    </div><div class="line">        List&lt;QuestionnaireQuestionBankVO&gt; bankVOList = list;</div><div class="line">        int rownum = 0;</div><div class="line">	    HSSFRow row = sheet.createRow(rownum);</div><div class="line">	    HSSFCell cell = null;</div><div class="line">	    List&lt;QuestionnaireQuestionBankVO&gt; headList = new ArrayList&lt;&gt;();</div><div class="line">	    List&lt;QuestionnaireQuestionBankVO&gt; bodyList = new ArrayList&lt;&gt;();</div><div class="line">	    List&lt;QuestionnaireQuestionBankVO&gt; shootList = new ArrayList&lt;&gt;();</div><div class="line">	    </div><div class="line">	    int maxSize =60;</div><div class="line">	    for(QuestionnaireQuestionBankVO bankVO : bankVOList)&#123;</div><div class="line">	    	if(&quot;1&quot;.equals(bankVO.getQuestionClassify()))&#123;</div><div class="line">	    		bodyList.add(bankVO);</div><div class="line">	    	&#125;else if(&quot;2&quot;.equals(bankVO.getQuestionClassify()))&#123;</div><div class="line">	    		headList.add(bankVO);</div><div class="line">	    	&#125;else if(&quot;3&quot;.equals(bankVO.getQuestionClassify()))&#123;</div><div class="line">	    		shootList.add(bankVO);</div><div class="line">	    	&#125;	</div><div class="line">	    &#125;</div><div class="line"></div><div class="line">	    //标题</div><div class="line">	    for(int i=0;i&lt;maxSize;i++)&#123;</div><div class="line">	    	cell = row.createCell(i);</div><div class="line">	    	if(i==0)&#123;</div><div class="line">	    		cell.setCellValue(titleName);</div><div class="line">	    	&#125;</div><div class="line">	    &#125;</div><div class="line">	    sheet.addMergedRegion(new CellRangeAddress(0,0,0,maxSize-1));</div><div class="line">	    </div><div class="line">	    //表头</div><div class="line">	    int initHeadNum=0;</div><div class="line">	    for(QuestionnaireQuestionBankVO headVO : headList)&#123;</div><div class="line">	    	if(initHeadNum&lt;2)&#123;</div><div class="line">	    		if(initHeadNum&lt;1)&#123;</div><div class="line">	    			row = sheet.createRow(++rownum);</div><div class="line">	    		&#125;</div><div class="line">	    	    for(int a=initHeadNum*30;a&lt;(initHeadNum+1)*30;a++)&#123;</div><div class="line">	    	    	cell = row.createCell(a);</div><div class="line">	    	    	if(a==0 || a==30)&#123;</div><div class="line">	    	    		String value = headVO.getQuestionTitle();//题目名称	    	    		</div><div class="line">		    	    	if(!&quot;3&quot;.equals(headVO.getQuestionType()))&#123;//单选多选</div><div class="line">		    	    		List&lt;QuestionnaireQuestionOptionVO&gt; optionList = headVO.getQuestionnaireQuestionOptionVO();</div><div class="line">		    	    		for(QuestionnaireQuestionOptionVO optionVO : optionList)&#123;</div><div class="line">		    	    			value+=&quot;   □  &quot; + optionVO.getOptionName();</div><div class="line">		    	    		&#125;</div><div class="line">		    	    	&#125;</div><div class="line">		    	    	 cell.setCellValue(value);</div><div class="line">	    	    	&#125;      </div><div class="line">			    &#125;  </div><div class="line">	    	&#125;  </div><div class="line">	        sheet.addMergedRegion(new CellRangeAddress(rownum,rownum,initHeadNum*30,(initHeadNum+1)*30-1));</div><div class="line">    	    initHeadNum++;</div><div class="line">    	    if(initHeadNum&gt;=2)&#123;</div><div class="line">    	    	initHeadNum=0;</div><div class="line">    	    &#125;</div><div class="line">	    &#125;</div><div class="line">	    </div><div class="line">	    //题目</div><div class="line">	    for(QuestionnaireQuestionBankVO bodyVO : bodyList)&#123;</div><div class="line">	    	String questionType = bodyVO.getQuestionType();</div><div class="line">	    	String isrequired = bodyVO.getIsRequired();</div><div class="line">	    	</div><div class="line">	    	if(&quot;1&quot;.equals(questionType))&#123;</div><div class="line">	    		questionType=&quot;单选题&quot;;</div><div class="line">	    	&#125;else if(&quot;2&quot;.equals(questionType))&#123;</div><div class="line">	    		questionType=&quot;多选题&quot;;</div><div class="line">	    	&#125;else if(&quot;3&quot;.equals(questionType))&#123;</div><div class="line">	    		questionType=&quot;填空题&quot;;</div><div class="line">	    	&#125;</div><div class="line">	    	</div><div class="line">	    	if(&quot;0&quot;.equals(isrequired))&#123;</div><div class="line">	    		isrequired=&quot;&quot;;</div><div class="line">	    	&#125;else if(&quot;1&quot;.equals(isrequired))&#123;</div><div class="line">	    		isrequired=&quot;*&quot;;</div><div class="line">	    	&#125;</div><div class="line">	    	</div><div class="line">	    	if(&quot;3&quot;.equals(bodyVO.getQuestionType()))&#123;</div><div class="line">	    		row = sheet.createRow(++rownum);</div><div class="line">	    		for(int i=0;i&lt;60;i++)&#123;</div><div class="line">	    			cell = row.createCell(i);</div><div class="line">	    			String value=&quot;&quot;;</div><div class="line">	    			if(i==0)&#123;</div><div class="line">	    				value = bodyVO.getQuestionTitle() + &quot; &quot; + isrequired + &quot; &quot; + &quot;【&quot; + questionType + &quot;】&quot;;//题目名称</div><div class="line">	    			&#125;</div><div class="line">	    			 cell.setCellValue(value+&quot;\n&quot;);</div><div class="line">	    		&#125;</div><div class="line">	    		sheet.addMergedRegion(new CellRangeAddress(rownum,rownum,0,59));</div><div class="line">	    	&#125;else&#123;</div><div class="line">	    		String groupingLayoutPc = bodyVO.getGroupingLayoutPc();//分组布局</div><div class="line">	    		String optionLayoutPc = bodyVO.getOptionLayoutPc();//选项布局</div><div class="line">	    		List groupName= new ArrayList&lt;&gt;();//分组名称数组</div><div class="line">	    		List&lt;QuestionnaireQuestionOptionVO&gt; optionVOList = bodyVO.getQuestionnaireQuestionOptionVO();</div><div class="line">	    		for(QuestionnaireQuestionOptionVO optionVO : optionVOList)&#123;</div><div class="line">	    			Boolean result = true;</div><div class="line">	    			String groupingName = optionVO.getGroupingName()==null?&quot;&quot;:optionVO.getGroupingName();</div><div class="line">	    			for(Object s : groupName)&#123;	    				</div><div class="line">	    				if(groupingName.equals(s))&#123;</div><div class="line">	    					result=false;</div><div class="line">		    			&#125;</div><div class="line">		    		&#125;</div><div class="line">	    			if(result)&#123;</div><div class="line">	    				groupName.add(groupingName);</div><div class="line">	    			&#125;</div><div class="line">	    		&#125;</div><div class="line"></div><div class="line">	    		row = sheet.createRow(++rownum);</div><div class="line">	    		String value=&quot;&quot;;</div><div class="line">   				value = bodyVO.getQuestionTitle() + &quot; &quot; + isrequired + &quot; &quot; + &quot;【&quot; + questionType + &quot;】&quot;;//题目名称  \&quot;b\nc\&quot;</div><div class="line">   				value+=&quot;\n&quot;;</div><div class="line">   				if(&quot;1&quot;.equals(groupingLayoutPc))&#123;</div><div class="line">   					if(&quot;1&quot;.equals(optionLayoutPc))&#123;</div><div class="line">   						if(!&quot;&quot;.equals(groupName.get(0)) &amp;&amp; groupName.get(0)!=&quot;&quot; &amp;&amp; groupName.size()&gt;0)&#123;</div><div class="line">   							value += initValue(optionVOList,groupName,1);</div><div class="line">   						&#125;else&#123;</div><div class="line">   							int num11=0;</div><div class="line">   							for(QuestionnaireQuestionOptionVO option11 : optionVOList)&#123;</div><div class="line">   								if(num11==0)&#123;</div><div class="line">									value+= &quot;   □  &quot; + option11.getOptionName();</div><div class="line">									num11++;</div><div class="line">								&#125;else&#123;</div><div class="line">									value+=&quot;\n&quot;+ &quot;   □  &quot; + option11.getOptionName();</div><div class="line">								&#125;</div><div class="line">   							&#125;</div><div class="line">   						&#125;	</div><div class="line">   					&#125;else if(&quot;2&quot;.equals(optionLayoutPc))&#123;</div><div class="line">   						if(!&quot;&quot;.equals(groupName.get(0)) &amp;&amp; groupName.get(0)!=&quot;&quot; &amp;&amp; groupName.size()&gt;0)&#123;</div><div class="line">   							value += initValue(optionVOList,groupName,2);</div><div class="line">   						&#125;else&#123;</div><div class="line">   							int num11=0;</div><div class="line">   							for(QuestionnaireQuestionOptionVO option11 : optionVOList)&#123;</div><div class="line">   								if(num11==0)&#123;</div><div class="line">   									value+= &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   								&#125;else&#123;</div><div class="line">   									if(num11%2!=0)&#123;</div><div class="line">   										value+= &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   									&#125;else&#123;</div><div class="line">   										value+=&quot;\n&quot;+ &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   									&#125;</div><div class="line">   								&#125;</div><div class="line">   								num11++;</div><div class="line">   							&#125;</div><div class="line">   						&#125;</div><div class="line">   					&#125;else if(&quot;4&quot;.equals(optionLayoutPc))&#123;    						</div><div class="line">   						if(!&quot;&quot;.equals(groupName.get(0)) &amp;&amp; groupName.get(0)!=&quot;&quot; &amp;&amp; groupName.size()&gt;0)&#123;</div><div class="line">   							value += initValue(optionVOList,groupName,4);</div><div class="line">   						&#125;else&#123;</div><div class="line">   							int num11=0;</div><div class="line">   							for(QuestionnaireQuestionOptionVO option11 : optionVOList)&#123;</div><div class="line">   								if(num11==0)&#123;</div><div class="line">   									value+= &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   								&#125;else&#123;</div><div class="line">   									if(num11%4!=0)&#123;</div><div class="line">   										value+= &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   									&#125;else&#123;</div><div class="line">   										value+=&quot;\n&quot;+ &quot;   □  &quot; + option11.getOptionName();</div><div class="line">   									&#125;</div><div class="line">   								&#125;</div><div class="line">   								num11++;</div><div class="line">   							&#125;</div><div class="line">   						&#125;</div><div class="line">   					&#125;</div><div class="line">   				&#125;else if(&quot;2&quot;.equals(groupingLayoutPc))&#123; </div><div class="line">					if(groupName.size()&lt;2)&#123;</div><div class="line">						value += initValue(optionVOList,groupName,Integer.parseInt(optionLayoutPc));</div><div class="line">					&#125;else&#123;</div><div class="line">						List&lt;List&lt;String&gt;&gt; lists= new ArrayList&lt;List&lt;String&gt;&gt;();</div><div class="line">   						for(Object name : groupName)&#123;</div><div class="line">   							List&lt;String&gt; optionList = new ArrayList&lt;String&gt;();</div><div class="line">   							for(QuestionnaireQuestionOptionVO option21 : optionVOList)&#123;   								</div><div class="line">   								if(name.equals(option21.getGroupingName()))&#123;</div><div class="line">   									optionList.add(option21.getOptionName());</div><div class="line">   								&#125;</div><div class="line">   							&#125;</div><div class="line">   							lists.add(optionList);</div><div class="line">   						&#125;</div><div class="line">						if(&quot;1&quot;.equals(optionLayoutPc))&#123;</div><div class="line">							value += initValue2(optionVOList,groupName,lists,1);</div><div class="line">						&#125;else if(&quot;2&quot;.equals(optionLayoutPc))&#123;</div><div class="line">    						value += initValue2(optionVOList,groupName,lists,2);</div><div class="line">    					&#125;else if(&quot;4&quot;.equals(optionLayoutPc))&#123;</div><div class="line">    						value += initValue2(optionVOList,groupName,lists,4);</div><div class="line">    					&#125;</div><div class="line">					&#125;</div><div class="line">   				&#125;	</div><div class="line">	    		for(int i=0;i&lt;60;i++)&#123;</div><div class="line">	    			cell = row.createCell(i);</div><div class="line">	    			if(i==0)&#123;</div><div class="line">	    				cell.setCellValue(value);</div><div class="line">		    		&#125;	</div><div class="line">	    		&#125;</div><div class="line">	    		sheet.addMergedRegion(new CellRangeAddress(rownum,rownum,0,59));</div><div class="line">	    	&#125;</div><div class="line">	    &#125;</div></pre></td></tr></table></figure>
+<h3 id="封装代码"><a href="#封装代码" class="headerlink" title="封装代码"></a>封装代码</h3><blockquote>
+<p>代码量非常多很多复用的没有复用到，代码可读性差，维护性也差。代码量也相当多<br>再看看加上面向编程</p>
+</blockquote>
+<p><img src="/2017/08/04/pro/poi设计模式/a1.png"> </p>
+<blockquote>
+<ul>
+<li>使用代码</li>
+<li>主要是ExecleHelper为封装工具使用建造者模式创建execle文件 再导出</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.setTitle(tbWjQuestionnairePO.getQuestionnaireTitle())</div><div class="line">//为添加固定模板的title 看一下内部代码</div></pre></td></tr></table></figure>
+<h3 id="BaseEBean父类"><a href="#BaseEBean父类" class="headerlink" title="BaseEBean父类"></a>BaseEBean父类</h3><blockquote>
+<p> 以上使用代码封装在一个basebean中做唯一个类封装</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line">public class BaseEBean &#123;</div><div class="line">    public HSSFWorkbook wb;</div><div class="line">    public HSSFSheet sheet;</div><div class="line">    public int index;//行数指针</div><div class="line"></div><div class="line">    public void addIndex() &#123;</div><div class="line">        index++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取当前行</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public HSSFRow getHSSFRow() &#123;</div><div class="line">        return sheet.createRow(index);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取下一行</div><div class="line">     *</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public HSSFRow getAddHSSFRow() &#123;</div><div class="line">        addIndex();</div><div class="line">        return getHSSFRow();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 合并单元格</div><div class="line">     *</div><div class="line">     * @param b1r 第一表格个行</div><div class="line">     * @param b2r 第二表格个行</div><div class="line">     * @param b1c 第一个表格列</div><div class="line">     * @param b2c 第二个表格列</div><div class="line">     */</div><div class="line">    public void hbTabl(int b1r, int b2r, int b1c, int b2c) &#123;</div><div class="line">        CellRangeAddress range = new CellRangeAddress(b1r, b2r, b1c, b2c);</div><div class="line">        sheet.addMergedRegion(range);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public void setInit(HSSFWorkbook wb, HSSFSheet sheet, int index) &#123;</div><div class="line">        this.wb = wb;</div><div class="line">        this.sheet = sheet;</div><div class="line">        this.index = index;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public HSSFWorkbook build() &#123;</div><div class="line">        return wb;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 添加内容</div><div class="line">     *</div><div class="line">     * @param row0</div><div class="line">     * @param y</div><div class="line">     * @param content</div><div class="line">     */</div><div class="line">    public HSSFCell setContentY(HSSFRow row0, int y, String content) &#123;</div><div class="line">        HSSFCell cell0 = row0.createCell(y);</div><div class="line">        cell0.setCellValue(content);</div><div class="line">        return cell0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 添加内容</div><div class="line">     *</div><div class="line">     * @param row0</div><div class="line">     * @param y</div><div class="line">     * @param content</div><div class="line">     */</div><div class="line">    public HSSFCell setContentY(HSSFRow row0, int y, String content, HSSFCellStyle style) &#123;</div><div class="line">        HSSFCell cell0 = row0.createCell(y);</div><div class="line">        cell0.setCellValue(content);</div><div class="line">        cell0.setCellStyle(style);</div><div class="line">        return cell0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 添加合并空行</div><div class="line">     * @param start</div><div class="line">     * @param end</div><div class="line">     */</div><div class="line">    public void addKong(int start, int end) &#123;</div><div class="line">        addIndex();</div><div class="line">        hbTabl(index, index, start, end);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="ExecleHelper-构造类"><a href="#ExecleHelper-构造类" class="headerlink" title="ExecleHelper 构造类"></a>ExecleHelper 构造类</h3><blockquote>
+<p>构造类创建HSSFWorkbook 对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">public class ExecleHelper extends BaseEBean &#123;</div><div class="line">    private ExecleHelper execleTopicHelper;</div><div class="line"></div><div class="line">    public ExecleHelper() &#123;</div><div class="line">        wb = new HSSFWorkbook();</div><div class="line">        creaTab(&quot;表格1&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static ExecleHelper creator() &#123;</div><div class="line">        return new ExecleHelper();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public HSSFWorkbook build() &#123;</div><div class="line">        return wb;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void addIndex() &#123;</div><div class="line">        index++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 创建表</div><div class="line">     *</div><div class="line">     * @param name</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public ExecleHelper creaTab(String name) &#123;</div><div class="line">        sheet = wb.createSheet(name);</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置标题</div><div class="line">     *</div><div class="line">     * @param title</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public ExecleHelper setTitle(String title) &#123;</div><div class="line">        HSSFRow row0 = getHSSFRow();</div><div class="line">        hbTabl(0, 0, 0, 7);</div><div class="line">        setContentY(row0, 0, title, ExecleStyleHelper.getTitileStyle(wb));</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置标题</div><div class="line">     *</div><div class="line">     * @param title</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public ExecleHelper setTitle(String title, int b1r, int b2r, int b1c, int b2c) &#123;</div><div class="line">        HSSFRow row0 = sheet.createRow(index);</div><div class="line">        hbTabl(b1r, b2r, b1c, b2c);</div><div class="line">        setContentY(row0, 0, title, ExecleStyleHelper.getTitileStyle(wb));</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public &lt;T extends BaseEBean&gt; T addEBean(T baseEInterface) &#123;</div><div class="line">        baseEInterface.setInit(wb, sheet, index);</div><div class="line">        return (T) baseEInterface;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="使用不同模板"><a href="#使用不同模板" class="headerlink" title="使用不同模板"></a>使用不同模板</h3><blockquote>
+<p>.addEBean(new TopicEBean())<br>在工具类中添加你所需要的bean模板</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public &lt;T extends BaseEBean&gt; T addEBean(T baseEInterface) &#123;</div><div class="line">      baseEInterface.setInit(wb, sheet, index);</div><div class="line">      return (T) baseEInterface;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><blockquote>
+<p>每一个不同execle样式放入不同的EBean对象<br>将逻辑写在EBean对象中<br>代码简洁已读，维护修改性强</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">public class TopicEBean extends BaseEBean &#123;</div><div class="line"></div><div class="line">    public TopicEBean addData(List&lt;QuestAnalyzeVO&gt; list) &#123;</div><div class="line">        for (QuestAnalyzeVO questAnalyzeVO : list) &#123;</div><div class="line">            addItem(questAnalyzeVO);</div><div class="line">        &#125;</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void addItem(QuestAnalyzeVO questAnalyzeVO) &#123;</div><div class="line">        HSSFRow hssfRow = getAddHSSFRow();</div><div class="line">        hbTabl(index, index, 0, 3);</div><div class="line">        setContentY(hssfRow, 0, questAnalyzeVO.getQuestionTitle(),ExecleStyleHelper.getBar(wb));</div><div class="line">        hbTabl(index, index, 4, 5);</div><div class="line">        setContentY(hssfRow, 4, getType(questAnalyzeVO.getQuestionType()),ExecleStyleHelper.getBar(wb));</div><div class="line">        hbTabl(index, index, 6, 7);</div><div class="line">        setContentY(hssfRow, 6, getIsBt(questAnalyzeVO.getIsRequired()),ExecleStyleHelper.getBar(wb));</div><div class="line">        HSSFRow hssfRow2 = getAddHSSFRow();</div><div class="line">        hbTabl(index, index, 0, 3);</div><div class="line">        setContentY(hssfRow2, 0, &quot;标签名：&quot;);</div><div class="line">        hbTabl(index, index, 4, 7);</div><div class="line">        setContentY(hssfRow2, 4, &quot;小计：&quot;);</div><div class="line">        List&lt;QuestAnalyzeItemVO&gt; list = questAnalyzeVO.getItemVOList();</div><div class="line">        for (QuestAnalyzeItemVO questAnalyzeItemVO : list) &#123;</div><div class="line">            addItemTopic(questAnalyzeItemVO);</div><div class="line">        &#125;</div><div class="line">        addKong(0,7);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void addItemTopic(QuestAnalyzeItemVO questAnalyzeItemVO) &#123;</div><div class="line">        HSSFRow hssfRow = getAddHSSFRow();</div><div class="line">        hbTabl(index, index, 0, 3);</div><div class="line">        setContentY(hssfRow, 0, questAnalyzeItemVO.getOptionName());</div><div class="line">        hbTabl(index, index, 4, 7);</div><div class="line">        setContentY(hssfRow, 4, questAnalyzeItemVO.getFiiNum());</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public String getType(String type) &#123;</div><div class="line">        if (&quot;1&quot;.equals(type)) &#123;</div><div class="line">            return &quot;【单选】&quot;;</div><div class="line">        &#125;</div><div class="line">        if (&quot;2&quot;.equals(type))</div><div class="line">            return &quot;【多选】&quot;;</div><div class="line">        return &quot;&quot;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public String getIsBt(String isbt) &#123;</div><div class="line">        String str = isbt == null ? &quot;否&quot; : isbt.equals(&quot;1&quot;) ? &quot;是&quot; : &quot;否&quot;;</div><div class="line">        return &quot;是否必填：&quot; + str;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="填写样式"><a href="#填写样式" class="headerlink" title="填写样式"></a>填写样式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">public class ExecleStyleHelper &#123;</div><div class="line"></div><div class="line">    public static HSSFCellStyle getTitileStyle(HSSFWorkbook workbook) &#123;</div><div class="line">        // 设置字体</div><div class="line">        HSSFFont headfont = workbook.createFont();</div><div class="line">        headfont.setFontName(&quot;黑体&quot;);</div><div class="line">        headfont.setFontHeightInPoints((short) 22);// 字体大小</div><div class="line">        headfont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 加粗</div><div class="line">        // 另一个样式</div><div class="line">        HSSFCellStyle headstyle = workbook.createCellStyle();</div><div class="line">        headstyle.setFont(headfont);</div><div class="line">        headstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中</div><div class="line">        headstyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 上下居中</div><div class="line">        headstyle.setLocked(true);</div><div class="line">        headstyle.setWrapText(true);// 自动换行</div><div class="line">        return headstyle;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * bar</div><div class="line">     * @param workbook</div><div class="line">     * @return</div><div class="line">     */</div><div class="line">    public static HSSFCellStyle getBar(HSSFWorkbook workbook) &#123;</div><div class="line">        // Sheet样式</div><div class="line">        HSSFCellStyle sheetStyle = workbook.createCellStyle();</div><div class="line">        // 背景色的设定</div><div class="line">//        sheetStyle.setFillBackgroundColor(HSSFColor.ROYAL_BLUE.index)</div><div class="line">//        sheetStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框</div><div class="line">//        sheetStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框</div><div class="line">//        sheetStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框</div><div class="line">//        sheetStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框;</div><div class="line">        // 前景色的设定</div><div class="line">        sheetStyle.setFillForegroundColor(HSSFColor.PALE_BLUE.index);</div><div class="line">        // 填充模式</div><div class="line">        sheetStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);</div><div class="line">        return sheetStyle;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><blockquote>
+<p>以上为部分代码设计模式，还有很大的设计空间，需要童鞋们发挥自己的想象里<br>考虑好自己封装设计代码目的是什么。总结一下主要围绕这几点  </p>
+<ul>
+<li>提高码代码速度减少工作量（偷懒）将大量服用封装成对象。万物皆为对象</li>
+<li>提高代码效率 减少重复工作将功能作为模块各做各自功能</li>
+<li>提高代码可读性在代码上提高别人对代码的可读性即使没有备注</li>
+<li>维护性，当二次开发或者修改某些功能时我只需要把模块的东西替换不需要一行行去看，牵一发而动全身   </li>
+<li>掌握这几点再复杂的模板都能导出  </li>
+</ul>
+</blockquote>
+<h3 id="拓展思维"><a href="#拓展思维" class="headerlink" title="拓展思维"></a>拓展思维</h3><blockquote>
+<p>编程思维最重要<br>比如更提升封装，可以将execle中封装成一个模板<br>我需要获取长宽多少的模板什么背景<br>直接将这些封装起来构造出来<br>通过适配器将数据与模板分离<br>将数据在适配器中填入模板中</p>
+</blockquote>
+<h3 id="导出结果"><a href="#导出结果" class="headerlink" title="导出结果"></a>导出结果</h3><p><img src="/2017/08/04/pro/poi设计模式/a2.png"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/p-wechatpay.jpg" alt="tim WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/p-alipay.jpg" alt="tim Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/04/pro/html输出格式化/" rel="next" title="java html格式化">
+                <i class="fa fa-chevron-left"></i> java html格式化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/12/pro/dqdp Sql拼装工具/" rel="prev" title="dqdp sql 再次封装">
+                dqdp sql 再次封装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/p-head.jpg"
+               alt="tim" />
+          <p class="site-author-name" itemprop="name">tim</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#poi的简单封装与封装思维分享"><span class="nav-number">1.</span> <span class="nav-text">poi的简单封装与封装思维分享</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#让我们先看一段传统j2e程序员同事使用poi导出部分代码"><span class="nav-number">1.0.1.</span> <span class="nav-text">让我们先看一段传统j2e程序员同事使用poi导出部分代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装代码"><span class="nav-number">1.0.2.</span> <span class="nav-text">封装代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseEBean父类"><span class="nav-number">1.0.3.</span> <span class="nav-text">BaseEBean父类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ExecleHelper-构造类"><span class="nav-number">1.0.4.</span> <span class="nav-text">ExecleHelper 构造类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用不同模板"><span class="nav-number">1.0.5.</span> <span class="nav-text">使用不同模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板"><span class="nav-number">1.0.6.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#填写样式"><span class="nav-number">1.0.7.</span> <span class="nav-text">填写样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展思维"><span class="nav-number">1.0.9.</span> <span class="nav-text">拓展思维</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出结果"><span class="nav-number">1.0.10.</span> <span class="nav-text">导出结果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tim</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://tim.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/08/04/pro/poi设计模式/';
+          this.page.identifier = '2017/08/04/pro/poi设计模式/';
+          this.page.title = 'java poi封装设计思维';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tim.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
