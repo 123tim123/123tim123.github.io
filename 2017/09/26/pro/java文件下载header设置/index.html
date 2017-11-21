@@ -94,7 +94,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/26/pro/java文件下载header设置/index.html">
 <meta property="og:site_name" content="tim程序员">
 <meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061@ResponseBody	@RequestMapping(&amp;quot;downLoad&amp;quot;)	public HttpServletResponse download">
-<meta property="og:updated_time" content="2017-09-26T07:22:23.103Z">
+<meta property="og:updated_time" content="2017-10-09T02:41:43.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java文件下载response header设置">
 <meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061@ResponseBody	@RequestMapping(&amp;quot;downLoad&amp;quot;)	public HttpServletResponse download">
@@ -390,7 +390,10 @@
 <h4 id="图片浏览器静态预览（非下载图片文件）"><a href="#图片浏览器静态预览（非下载图片文件）" class="headerlink" title="图片浏览器静态预览（非下载图片文件）"></a>图片浏览器静态预览（非下载图片文件）</h4><blockquote>
 <p>image格式设置成jpeg *或者png格式似乎是不支持浏览器静态预览，其他格式的话就没有尝试<br>设置的jpeg格式并非图片文件格式，它是告诉浏览器该文件是什么类型所以所有图片设置该格式即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.setContentType(&quot;image/jpeg&quot;);</div></pre></td></tr></table></figure></p>
 </blockquote>
-<h4 id="视频浏览器静态预览（非文件下载）"><a href="#视频浏览器静态预览（非文件下载）" class="headerlink" title="视频浏览器静态预览（非文件下载）"></a>视频浏览器静态预览（非文件下载）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">response.addHeader(&quot;Content-Type&quot;, &quot;video/mp4&quot;);</div><div class="line">response.addHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);</div><div class="line">response.addHeader(&quot;Content-Range&quot;, &quot;bytes=0-&quot;);</div><div class="line">response.addHeader(&quot;Content-Length&quot;, &quot;&quot; + file.length());</div></pre></td></tr></table></figure>
+<h4 id="视频浏览器静态预览（非文件下载）"><a href="#视频浏览器静态预览（非文件下载）" class="headerlink" title="视频浏览器静态预览（非文件下载）"></a>视频浏览器静态预览（非文件下载）</h4><blockquote>
+<p>ios 浏览器播放失败，目前未找到原因。最后解决办法静态访问视频资源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">response.addHeader(&quot;Content-Type&quot;, &quot;video/mp4&quot;);</div><div class="line">response.addHeader(&quot;Accept-Ranges&quot;, &quot;bytes&quot;);</div><div class="line">response.addHeader(&quot;Content-Range&quot;, &quot;bytes=0-&quot;);</div><div class="line">response.addHeader(&quot;Content-Length&quot;, &quot;&quot; + file.length());</div></pre></td></tr></table></figure></p>
+</blockquote>
+
       
     </div>
 
@@ -454,6 +457,10 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/15/pro/poi模板替换/" rel="next" title="java poi模板内容替换">
+                <i class="fa fa-chevron-left"></i> java poi模板内容替换
+              </a>
             
           </div>
 
@@ -542,7 +549,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
